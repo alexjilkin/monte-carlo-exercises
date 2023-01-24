@@ -17,8 +17,10 @@ def rand_lcg():
   c = 1019
   m = 113829760
 
-  lcg_seed = ((a * lcg_seed) + c) % m
-  return ((a * lcg_seed) + c) % m
+  x_n = ((a * lcg_seed) + c) % m
+  lcg_seed = x_n
+
+  return lcg_seed / m
 
 def rand_pm():
   global pm_seed
@@ -39,13 +41,15 @@ def rand_pm():
 
 
 def find_repeat():
-  seed_lcg(112312312)
+  seed_lcg(124124124124124)
+  m = 113829760
+
   repeat_count = 0
-  repeat_array = np.empty(113829760, dtype=float)
+  repeat_array = np.empty(m, dtype=float)
   n = 0
 
   while (repeat_count < 3):
-    x_n = int(rand_lcg())
+    x_n = int(rand_lcg() * m)
     
     repeat_count = repeat_count + 1 if repeat_array[x_n] == True else 0
 
@@ -65,3 +69,9 @@ find_repeat()
 # print(rand_pm())
 # print(rand_pm())
 # print(rand_pm())
+
+seed_lcg(123123)
+
+print(rand_lcg())
+print(rand_lcg())
+print(rand_lcg())
