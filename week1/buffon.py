@@ -35,7 +35,6 @@ def main():
         average_error = error_sum / N
         error_data = np.append(error_data, average_error)
     print(error_data)
-    print(tens_power_arr)
   
     x = tens_power_arr;
     y = error_data

@@ -1,6 +1,8 @@
 import numpy as np
+import random
 
 lcg_seed = 0 # x_0
+m_lcg = 113829760
 
 def seed_lcg(seed): 
   global lcg_seed
@@ -10,7 +12,7 @@ def rand_lcg():
   global lcg_seed
   a = 587
   c = 1019
-  m = 113829760
+  m = m_lcg
 
   x_n = ((a * lcg_seed) + c) % m
   lcg_seed = x_n
@@ -21,6 +23,7 @@ def rand_lcg():
 ## ------------------------------------
 
 pm_seed = 0 # x_0
+m_pm = 2147483647
 
 def seed_pm(seed): 
   global pm_seed
@@ -29,8 +32,7 @@ def seed_pm(seed):
 def rand_pm():
   global pm_seed
   x_n = pm_seed
-
-  m = 2147483647
+  m = m_pm
 
   q = 127773
   r = 2836 
@@ -46,43 +48,39 @@ def rand_pm():
 
   return x_n / m
 
+## ----------------------------------------------
+
+twister_seed = 1
+
+def seed_twister(seed):
+    random.seed(seed)
+def rand_twister():
+    return random.random()
 
 
-def find_repeat():
-  seed_lcg(124124124124124)
-  m = 113829760
+# dynamically uses different types of rng: type = lcg | pm | twister
+def find_repeat(type):
+  seed = globals()["seed_{}".format(type)]
+  rand = globals()["rand_{}".format(type)]
+  m = globals()["m_{}".format(type)]
+
+  seed(123)
 
   repeat_count = 0
-  repeat_array = np.empty(m, dtype=float)
+  repeat_dictionary = {}
   n = 0
 
-  while (repeat_count < 3):
-    x_n = int(rand_lcg() * m)
-    
-    repeat_count = repeat_count + 1 if repeat_array[x_n] == True else 0
+  while (repeat_count < 10):
+    x_n = rand() 
 
-    repeat_array[x_n] = True
+    repeat_count = repeat_count + 1 if x_n in repeat_dictionary else 0
+    repeat_dictionary[x_n] = True
     n = n + 1
 
   print(n)
 
 
-
-
-seed_pm(12353246)
-
-print(rand_pm())
-print(rand_pm())
-print(rand_pm())
-print(rand_pm())
-print(rand_pm())
-print(rand_pm())
-print(rand_pm())
-
-# seed_lcg(123123)
-
+# print(rand_twister())
 # print(rand_lcg())
 # print(rand_lcg())
 # print(rand_lcg())
-
-# find_repeat()
