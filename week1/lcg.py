@@ -1,15 +1,10 @@
 import numpy as np
 
 lcg_seed = 0 # x_0
-pm_seed = 0 # x_0
 
 def seed_lcg(seed): 
   global lcg_seed
   lcg_seed = seed
-
-def seed_pm(seed): 
-  global pm_seed
-  pm_seed = seed
 
 def rand_lcg():
   global lcg_seed
@@ -22,21 +17,34 @@ def rand_lcg():
 
   return lcg_seed / m
 
+
+## ------------------------------------
+
+pm_seed = 0 # x_0
+
+def seed_pm(seed): 
+  global pm_seed
+  pm_seed = seed
+
 def rand_pm():
   global pm_seed
+  x_n = pm_seed
+
   m = 2147483647
+
   q = 127773
   r = 2836 
-
   a = 16807
 
-  k = pm_seed / q
-  x_n = a * (pm_seed - (k * q)) - (r * k)
+  k = x_n // q
+  x_n = a * (x_n - k * q) - r * k
 
-  if x_n < 0:
-    x_n = x_n + m
-  pm_seed = x_n * a
-  return x_n
+  if (x_n < 0):
+    x_n += m
+
+  pm_seed = x_n
+
+  return x_n / m
 
 
 
@@ -59,19 +67,22 @@ def find_repeat():
   print(n)
 
 
-find_repeat()
 
-# seed_pm(2)
 
-# print(rand_pm())
-# print(rand_pm())
-# print(rand_pm())
-# print(rand_pm())
-# print(rand_pm())
-# print(rand_pm())
+seed_pm(12353246)
 
-seed_lcg(123123)
+print(rand_pm())
+print(rand_pm())
+print(rand_pm())
+print(rand_pm())
+print(rand_pm())
+print(rand_pm())
+print(rand_pm())
 
-print(rand_lcg())
-print(rand_lcg())
-print(rand_lcg())
+# seed_lcg(123123)
+
+# print(rand_lcg())
+# print(rand_lcg())
+# print(rand_lcg())
+
+# find_repeat()
