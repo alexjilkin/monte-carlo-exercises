@@ -1,6 +1,9 @@
 import numpy as np
 import random
 
+
+## ------------- Basic lcg -----------------------
+
 lcg_seed = 0 # x_0
 m_lcg = 113829760
 
@@ -20,7 +23,7 @@ def rand_lcg():
   return lcg_seed / m
 
 
-## ------------------------------------
+## ------------- Park Miller -----------------------
 
 pm_seed = 0 # x_0
 m_pm = 2147483647
@@ -48,7 +51,7 @@ def rand_pm():
 
   return x_n / m
 
-## ----------------------------------------------
+## ----------------- Twister using Python's random -----------------------------
 
 twister_seed = 1
 
@@ -59,10 +62,11 @@ def rand_twister():
 
 
 # dynamically uses different types of rng: type = lcg | pm | twister
+# saves all results in a dictionary and checks if the current giver random number 
+# was given before.
 def find_repeat(type):
   seed = globals()["seed_{}".format(type)]
   rand = globals()["rand_{}".format(type)]
-  m = globals()["m_{}".format(type)]
 
   seed(123)
 
@@ -75,6 +79,8 @@ def find_repeat(type):
 
     repeat_count = repeat_count + 1 if x_n in repeat_dictionary else 0
     repeat_dictionary[x_n] = True
+    if (n % 10000000 == 0):
+      print(n)
     n = n + 1
 
   print(n)
@@ -84,3 +90,5 @@ def find_repeat(type):
 # print(rand_lcg())
 # print(rand_lcg())
 # print(rand_lcg())
+
+# find_repeat("pm")

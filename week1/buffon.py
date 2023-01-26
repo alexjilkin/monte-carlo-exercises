@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 l = 2
 d = 10
-N = 10
+N = 100
 power = 7
 
 # times = [10, 100, 1000...., 10^7]
@@ -47,10 +47,17 @@ def main():
         
 
 
+def is_needle_hit(d, l): 
+    angle = random.random() * (math.pi / 2)
+    x = random.random() * (d / 2)
+
+    return x <= ((l * np.sin(angle)) / 2)
+
 def isNeedleHit(d, l): 
     angle = random.random() * (math.pi / 2)
     x = random.random() * (d / 2)
 
     return x <= ((l * np.sin(angle)) / 2)
+
 
 main()
