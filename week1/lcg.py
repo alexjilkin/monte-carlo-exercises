@@ -67,18 +67,18 @@ def rand_twister():
 def find_repeat(type):
   seed = globals()["seed_{}".format(type)]
   rand = globals()["rand_{}".format(type)]
-
+  m = globals()["m_{}".format(type)]
   seed(123)
 
   repeat_count = 0
-  repeat_dictionary = {}
+  repeat_array = np.empty(m)
   n = 0
 
   while (repeat_count < 10):
-    x_n = rand() 
+    x_n = int(rand() * m)
 
-    repeat_count = repeat_count + 1 if x_n in repeat_dictionary else 0
-    repeat_dictionary[x_n] = True
+    repeat_count = repeat_count + 1 if repeat_array[x_n] else 0
+    repeat_array[x_n] = True
     if (n % 10000000 == 0):
       print(n)
     n = n + 1
@@ -91,4 +91,4 @@ def find_repeat(type):
 # print(rand_lcg())
 # print(rand_lcg())
 
-# find_repeat("pm")
+find_repeat("pm")
