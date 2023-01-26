@@ -1,7 +1,6 @@
 import numpy as np
 import random
 
-
 ## ------------- Basic lcg -----------------------
 
 lcg_seed = 0 # x_0
@@ -53,6 +52,7 @@ def rand_pm():
 
 ## ----------------- Twister using Python's random -----------------------------
 
+m_twister = 2147483647 # Just to be used at the find_repeat function
 twister_seed = 1
 
 def seed_twister(seed):
@@ -62,7 +62,7 @@ def rand_twister():
 
 
 # dynamically uses different types of rng: type = lcg | pm | twister
-# saves all results in a dictionary and checks if the current giver random number 
+# saves all results in a dictionary/array and checks if the current giver random number 
 # was given before.
 def find_repeat(type):
   seed = globals()["seed_{}".format(type)]
@@ -79,16 +79,24 @@ def find_repeat(type):
 
     repeat_count = repeat_count + 1 if repeat_array[x_n] else 0
     repeat_array[x_n] = True
-    if (n % 10000000 == 0):
-      print(n)
+    
     n = n + 1
 
   print(n)
+  return n
+
+# Just a main, I think maybe the exercise required it.
+def main():
+  seed_lcg(98444);   
+  a=rand_lcg();  
+  seed_pm(7845);   
+  b=rand_pm();  
+  seed_twister(4341); 
+  c=rand_twister();  
+  print("LCG value: {}; Park-Miller value: {}; Mersenne twister: {} \n".format(a, b, c));
+  lcg_repeat_count = find_repeat("lcg")
+
+  print("LCG with a=587 a=1019 period:{}".format(lcg_repeat_count));
 
 
-# print(rand_twister())
-# print(rand_lcg())
-# print(rand_lcg())
-# print(rand_lcg())
-
-find_repeat("pm")
+main()
