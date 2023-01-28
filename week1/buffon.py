@@ -2,11 +2,13 @@ import random
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import lcg
 
 l = 2
 d = 10
-N = 100
+N = 10
 power = 7
+lcg.seed_lcg(12355)
 
 # times = [10, 100, 1000...., 10^7]
 tens_power_arr = np.power(np.full(power, 10, dtype=int), np.arange(1, power + 1))
@@ -28,7 +30,7 @@ def main(is_hit_func):
 
             p_hit = hit_count / n
 
-            # If p_hit is 0, just use real pi to not skew results.
+            # Calculates pi using buffon's "formula", with safety for  p_hit == 0
             pi = 2 * l / (p_hit * d) if p_hit != 0 else np.pi
             error_sum += np.abs((np.pi - pi))
             print("n: {}, pi: {}".format(n, pi))
@@ -47,18 +49,19 @@ def main(is_hit_func):
     plt.show()
         
 
-
+# Checks hit using python's random if needle hit
 def is_needle_hit(d, l): 
     angle = random.random() * (math.pi / 2)
     x = random.random() * (d / 2)
 
     return x <= ((l * np.sin(angle)) / 2)
 
+# Checks hit using basic LCG method random from lcg.py file if needle hit
 def is_needle_hit_lcg(d, l): 
-    angle = random.random() * (math.pi / 2)
-    x = random.random() * (d / 2)
+    angle = lcg.rand_lcg() * (math.pi / 2)
+    x = lcg.rand_lcg() * (d / 2)
 
     return x <= ((l * np.sin(angle)) / 2)
 
 
-main(is_needle_hit_lcg)
+main(is_needle_hit)

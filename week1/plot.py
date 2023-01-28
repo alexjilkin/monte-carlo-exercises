@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import lcg
 
-
+# Generates plot images for all types of RNGs, for 100 and 10000 points.
 def generate_plot_images():
   lcg.seed_lcg(123)
   lcg_results = np.array([lcg.rand_lcg() for idx in range(100)])
@@ -46,7 +46,7 @@ def generate_plot_images():
   plt.cla()
 
 
-
+# Plots only at the range of < 0.02 or > 0.98
 def plot_small_range():
   lcg.seed_lcg(1)
   pm_results = np.empty(1000)
