@@ -5,6 +5,7 @@ import random
 
 lcg_seed = 0 # x_0
 m_lcg = 113829760
+# 2 x 2 x 2 x 2 x 2 x 2 x 2 x 5 x 11 x 19 x 23 x 37
 
 def seed_lcg(seed): 
   global lcg_seed
@@ -12,8 +13,8 @@ def seed_lcg(seed):
 
 def rand_lcg():
   global lcg_seed
-  a = 587
-  c = 1019
+  a = 3557181
+  c = 5561
   m = m_lcg
 
   x_n = ((a * lcg_seed) + c) % m
@@ -96,7 +97,7 @@ def main():
   print("LCG value: {}; Park-Miller value: {}; Mersenne twister: {} \n".format(a, b, c));
   lcg_repeat_count = find_repeat("lcg")
 
-  print("LCG with a=587 a=1019 period:{}".format(lcg_repeat_count));
+  print("LCG with a=3557181 c=5561 period:{}".format(lcg_repeat_count));
 
 
 main()

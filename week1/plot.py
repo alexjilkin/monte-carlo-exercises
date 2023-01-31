@@ -62,5 +62,5 @@ def plot_small_range():
   plt.plot(pm_results, 'bs', markersize=1)
   plt.show()
 
-plot_small_range()
-# generate_plot_images()
+#plot_small_range()
+generate_plot_images()
