@@ -15,7 +15,7 @@ def rand_qcg():
 
   a = 309900  #1033 * 4 * 5 * 15
   b = 3100 # b = 1 mod p_i
-  c = 463
+  c = 463 # not common prime factor
 
   x_n = ((a * seed * seed) + (b * seed) + c) % m
   seed = x_n
@@ -23,6 +23,8 @@ def rand_qcg():
   return seed / m
 
 
+# Finds repeat by saving all values in an array, and then searching
+# a sequence of atleast 10 repeating numbers
 def find_repeat():
   repeat_count = 0
   repeat_array = np.empty(m)
@@ -40,5 +42,5 @@ def find_repeat():
 
 seed_qcg(12312)
 
-# print(find_repeat())
+print("The repeat of the qcg is: {}".format(find_repeat()))
 
