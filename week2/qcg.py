@@ -42,5 +42,5 @@ def find_repeat():
 
 seed_qcg(12312)
 
-print("The repeat of the qcg is: {}".format(find_repeat()))
+# print("The repeat of the qcg is: {}".format(find_repeat()))
 

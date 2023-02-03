@@ -10,17 +10,11 @@ lcg.seed_lcg(1235)
 lcg.seed_pm(12144)
 lcg.seed_twister(4444)
 
-# Get chi^2 value based on the RNG type = qcg | lcg | pm | twister; M = number of bins
+# Get chi^2 value based on the RNG rand_fun = RNG function; M = number of bins
 # Returns tuple (chi squared, array of bins count)
-def get_chi(type, M):
-  N = 1000000
-  rand = None
-
-  # Use different rand function based on the type giver
-  if type == "qcg":
-    rand =  getattr(qcg, "rand_qcg")
-  else:
-    rand =  getattr(lcg, "rand_{}".format(type))
+def get_chi(rand_func, M):
+  N = 10 ** 5
+  rand = rand_func
     
   bin_size = 1 / M
 
@@ -39,21 +33,29 @@ def get_chi(type, M):
 
   chi_arr = ((y - E)**2) / E
   chi = np.sum(chi_arr)
-  return chi, y
+  return chi
 
 
-def print_chi_average():
-  chis_array = np.array([get_chi("lcg", 100) for i in range(0, 30)])
+def print_chi_average_median():
+  chis_array = np.array([get_chi(lcg.rand_twister, 100) for i in range(0, 2000)])
   chi_average = np.average(chis_array)
   chi_median = np.median(chis_array)
 
+  plt.hist(chis_array, bins = 100, density=True)
+  plt.show()
   print("For lcg, the average: {} and the median is: {}".format(chi_average, chi_median))
+
+def print_chi_distribution():
+  chis_array = np.array([get_chi(lcg.rand_twister, 100) for i in range(0, 2000)])
+
+  plt.hist(chis_array, bins = 100, density=True)
+  plt.show()
 
 ##
 def plot_bins():
-  chi, y = get_chi("twister", 100)
+  chi, y = get_chi(lcg.rand_twister, 100)
 
   plt.bar([i for i in range(1, 101)], y)
   plt.show()
 
-plot_bins()
+print_chi_distribution()
