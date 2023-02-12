@@ -10,9 +10,8 @@ def F_inverse(u):
 
 nums = [F_inverse(random.random()) for i in range(0, 10000)]
 
-print(nums)
-# plt.hist(nums, bins = 100, density=True)
-# plt.show()
+plt.hist(nums, bins = 1000)
+plt.show()
 
 
 # Plots the given function as argument
@@ -25,5 +24,5 @@ def plot(f):
   plt.grid()
   plt.show()
 
-plot(f)
+# plot(f)
 
