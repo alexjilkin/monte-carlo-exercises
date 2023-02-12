@@ -100,4 +100,4 @@ def main():
   print("LCG with a=3557181 c=5561 period:{}".format(lcg_repeat_count));
 
 
-main()
+# main()
