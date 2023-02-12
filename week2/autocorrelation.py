@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import lcg
-
-import math
+import lcg_shuffle
 
 lcg.seed_lcg(1235)
 lcg.seed_pm(12144)
@@ -29,12 +28,8 @@ def get_autocorrelation(rand_func):
   return C
 
 
-correlations = get_autocorrelation(lcg.rand_pm)
+# The autocorrelations of the shuffle lcg.
+correlations = get_autocorrelation(lcg_shuffle.rand_lcg_shuffle)
 
 plt.plot(correlations)
 plt.show()
-
-
-
-
-
