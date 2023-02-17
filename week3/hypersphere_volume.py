@@ -19,5 +19,12 @@ def volume(N):
 
   return volume
 
-volume(3)
+N = 3
+sample_size = 100
+
+volumes = [volume(3) for i in range(0, sample_size)]
+mean = np.mean(volumes)
+std_deviation = np.std(volumes)
+
+print("For a {}-sphere we get a mean volume: {} and std-deviation: {}".format(N, mean, std_deviation))
 
