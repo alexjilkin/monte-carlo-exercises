@@ -7,13 +7,15 @@ def f(x):
   return 4 / (x**2 + 4)
 
 def F_inverse(u):
-  return 2*np.tan((np.pi * u) - (np.pi / 2))
+  return 2 * np.tan(np.pi * (u - 1/2))
 
-nums = [F_inverse(random.random()) for i in range(0, 10000)]
+u = np.array([random.random() for i in range(0, 100000)])
+x = F_inverse(u)
+x = x[(x >= -10) & (x <= 10)]
 
-# plt.hist(nums, bins = 1000)
-# # plt.ylim(-5, 5)
-# plt.show()
+plt.hist(x, bins = 100, density=True)
+plt.plot(np.linspace(-10, 10, 1000), f(np.linspace(-10, 10, 1000)))
+plt.show()
 
 
 # Plots the given function as argument
@@ -27,5 +29,5 @@ def plot(f):
   plt.grid()
   plt.show()
 
-plot(F_inverse)
+# plot(F_inverse)
 
