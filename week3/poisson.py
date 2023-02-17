@@ -13,6 +13,17 @@ def direct_sampling(N):
   samples = np.array([f(random.uniform(a, b)) for _ in range(0, N)])
 
   return ((b - a) / N) * samples.sum()
+   
+# Returns an array of N stratifed random numbers between a and b
+def stratified_sampling(N, a, b):
+  grids = 32
+  samples = []
+  size = (b - a) / grids
+
+  for i in range(0, grids):
+      samples.append([f(random.uniform(i * size, (i + 1) * size)) for _ in range(0, int(N / grids))])
+
+  return ((b - a) / N) * np.array(samples).sum()
 
 # Calculated max between 10 ** 6 samples to get 0.28798114136535946
 def hit_miss(N):
@@ -28,5 +39,6 @@ def hit_miss(N):
 
   return v * (len(samples) / N)
 
-print(direct_sampling(N))
-print(hit_miss(N))
+# print(direct_sampling(N))
+# print(hit_miss(N))
+print(stratified_sampling(N, a, b))
