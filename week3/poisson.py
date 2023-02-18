@@ -1,13 +1,19 @@
 import random 
 import numpy as np
 from scipy.special import gamma, factorial
+import matplotlib.pyplot as plt
+import time
 
-N = 10 ** 5
 a = 0
 b = 20
 
 def f(x):
   return ((np.power(2, x)) * np.exp(-2)) / gamma(x + 1)
+def g(x):
+  return ((np.power(0.1, x)) * np.exp(-0.1)) / gamma(x + 1)
+
+def fg(x):
+  return f(x) / g(x)
 
 def direct_sampling(N):
   samples = np.array([f(random.uniform(a, b)) for _ in range(0, N)])
@@ -47,7 +53,20 @@ def hit_miss(N):
 
   return v * (len(samples) / N)
 
-# print(direct_sampling(N))
-# print(hit_miss(N))
-print(partially_stratified_sampling(N, a, b))
-print(stratified_sampling(N))
+
+samples = [10**2, 10**3, 10**4, 10**5, 10**6]
+methods = [direct_sampling, hit_miss, partially_stratified_sampling, stratified_sampling]
+for N in samples:
+
+  for method in methods:
+    st = time.time()
+    res = method(N)
+    et = time.time()
+
+    # printing while limiting the float number for better readability
+    print("N={}, integrating using {} gave {:.5f} in {:.5f}s".format(N, method.__name__, res, et - st))
+
+
+# plt.plot(np.linspace(0, 20, 1000), fg(np.linspace(0, 20, 1000)))
+# plt.plot(np.linspace(0, 20, 1000), g(np.linspace(0, 20, 1000)))
+# plt.show()
