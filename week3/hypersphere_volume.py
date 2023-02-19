@@ -7,7 +7,7 @@ def volume(N):
   dots = []
   hit_dots = []
 
-  for k in range(0, 1000):
+  for k in range(0, 10000):
     dot = np.array([random.uniform(-r, r) for i in range(0, N)])
     dots.append(dot)
 
@@ -26,6 +26,7 @@ for dim in range(1, 16):
 
   mean = np.mean(volumes)
   std_deviation = np.std(volumes)
+  var = np.var(volumes)
 
-  print("{}-sphere: mean volume: {} and std-deviation: {}".format(dim, mean, std_deviation))
+  print("{}-sphere: mean volume: {}, std-deviation: {}, var: {}".format(dim, mean, std_deviation, var))
 

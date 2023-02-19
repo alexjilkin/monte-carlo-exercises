@@ -1,20 +1,23 @@
 import random 
 import numpy as np
-from scipy.special import gamma, factorial
+from scipy.special import gamma
+from scipy import stats
 import matplotlib.pyplot as plt
 import time
 
 a = 0
 b = 20
 
+def poisson(x, lam):
+  return ((np.power(lam, x)) * np.exp(-lam)) / gamma(x + 1)
+
 def f(x):
-  return ((np.power(2, x)) * np.exp(-2)) / gamma(x + 1)
+  return poisson(x, 2)
 def g(x):
-  return ((np.power(0.1, x)) * np.exp(-0.1)) / gamma(x + 1)
+  return poisson(x, 0.5)
 
-def fg(x):
-  return f(x) / g(x)
 
+# Integrates f(x) using direct sampling
 def direct_sampling(N):
   samples = np.array([f(random.uniform(a, b)) for _ in range(0, N)])
 
@@ -53,20 +56,29 @@ def hit_miss(N):
 
   return v * (len(samples) / N)
 
+# Calculates the integral of f using importance sampling
+def importance_sampling(N):
+  
+  # RNG for poisson distribution function. I use it directly instead of calculating the inverse my self.
+  r = np.array([stats.poisson.rvs(mu = 0.5) for _ in range(0, N)])
+
+  return np.sum(f(r) / g(r)) * (1 / N)
 
 samples = [10**2, 10**3, 10**4, 10**5, 10**6]
-methods = [direct_sampling, hit_miss, partially_stratified_sampling, stratified_sampling]
-for N in samples:
+methods = [direct_sampling, hit_miss, partially_stratified_sampling, stratified_sampling, importance_sampling]
 
-  for method in methods:
-    st = time.time()
-    res = method(N)
-    et = time.time()
+I_exact = 0.947019421085
 
-    # printing while limiting the float number for better readability
-    print("N={}, integrating using {} gave {:.5f} in {:.5f}s".format(N, method.__name__, res, et - st))
+# Runs all methods and prints results
+def evaluate():
+  for N in samples:
 
+    for method in methods:
+      st = time.time()
+      res = method(N)
+      et = time.time()
 
-# plt.plot(np.linspace(0, 20, 1000), fg(np.linspace(0, 20, 1000)))
-# plt.plot(np.linspace(0, 20, 1000), g(np.linspace(0, 20, 1000)))
-# plt.show()
+      # printing while limiting the float number for better readability
+      print("N={}, {}:  I={:.11f} in {:.5f}s Δ𝐼={}".format(N, method.__name__, res, et - st, I_exact - res))
+
+evaluate()
