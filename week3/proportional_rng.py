@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import norm
 import random 
 import math
 
@@ -36,7 +37,7 @@ def box_muller_rand():
   u2 = random.random()
   r = np.sqrt(-2 * np.log(u2))
 
-  return r * np.cos(psi), r * np.sin(psi)
+  return 3.1 * r * np.cos(psi), r * np.sin(psi)
 
 # Gets 10**5 random numbers using combined hit&miss and proportional
 # to a Gaussian distribution function.
@@ -46,7 +47,8 @@ def combined():
 
   while (len(samples) < 100000):
     x, y  = box_muller_rand()
-    y = random.uniform(0, 2 * y)
+    # Tried many parameters for A and sigma, those seems to give a good dist
+    y = random.uniform(0, 15 * norm.pdf(x, 0, 3.1))
 
     if (y > f(x)):
       miss_count += 1
@@ -69,3 +71,4 @@ def plot(f):
   plt.show()
 
 combined()
+# inversion()
