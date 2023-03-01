@@ -3,20 +3,20 @@ import matplotlib.pyplot as plt
 from scipy.special import gamma
 from scipy.constants import Boltzmann as Kb
 
-# Constants
+# Constants 
 KbT = 8.6173324e-5 * 300
 E_the = (3/2) * KbT
 twopi = 2 / np.sqrt(np.pi)
 N = 500
 
-def n(E, delta_max):
+def n(E):
   return twopi * (np.sqrt(E) / np.power(KbT, 3/2)) * np.exp(-E/KbT)
 
 def markov_chain(N, delta_max):
   x0 = 1
   x = x0
 
-  rho = n(x0, delta_max)
+  rho = n(x0)
   
   samples = []
 
@@ -25,16 +25,16 @@ def markov_chain(N, delta_max):
     u = np.random.uniform(-1, 1)
     
     x_p = x + (u * delta_max)
-    rho_p = n(x_p, delta_max)
+    rho_p = n(x_p)
 
     if (rho_p / rho >= 1):
       x = x_p
-      rho = n(x_p, delta_max)
+      rho = n(x_p)
     else:
       u = np.random.uniform(0, 1)
       if (rho_p / rho >= u):
         x = x_p
-        rho = n(x_p, delta_max)
+        rho = n(x_p)
       else:
         x = x0
     
@@ -58,16 +58,16 @@ def mean_rms():
   print("mean: {}, rms: {}, E_theory:".format(mean, rms(N, delta_max_opt), E_the))
 
   plt.hist(samples, bins=100, density=True)
-  plt.plot(np.linspace(0, 1, 1000), n(np.linspace(0, 1, 1000), delta_max_opt))
+  plt.plot(np.linspace(0, 1, 1000), n(np.linspace(0, 1, 1000)))
   plt.show()
 
 def delta_max_plot():
-  delta_max_arr = np.linspace(0.01, 10, 20)
+  delta_max_arr = np.linspace(0.01, 10, 10)
   plt.plot(delta_max_arr, [rms(N, delta_max) for delta_max in delta_max_arr])
   plt.xlabel('∆E max')
   plt.ylabel('rms')
   plt.show()
 
-mean_rms()
-# delta_max_plot()
+# mean_rms()
+delta_max_plot()
 # print(n(0.1))
