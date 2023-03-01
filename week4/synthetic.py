@@ -3,19 +3,23 @@ import matplotlib.pyplot as plt
 from scipy.special import gamma
 from scipy import stats
 
-def poisson(x, lam):
-  return ((np.power(lam, x)) * np.exp(-lam)) / gamma(x + 1)
+def readFile():
+  file = open("distr1.dat", "r")
 
-file = open("distr1.dat", "r")
+  lines = [line[:-1] for line in file.readlines()]
 
-lines = [line[:-1] for line in file.readlines()]
+  x = [int(line.split(" ")[0]) for line in lines]
+  y = [int(line.split(" ")[1]) for line in lines]
+  print("")
 
-x = [int(line.split(" ")[0]) for line in lines]
-y = [int(line.split(" ")[1]) for line in lines]
+samples = np.random.poisson(3, size=100)
 
-s = np.random.poisson(3, size=10000)
+print(samples)
+plt.hist(samples, bins=100)
+plt.show()
 
 # plt.plot(x, y)
-plt.hist(s, bins = 14, density=True)
+# plt.scatter(counts)
 
-plt.show()
+# plt.show()
+# readFile()
